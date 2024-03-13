@@ -9,6 +9,10 @@ import PatternRightDesktop from "./assets/images/bg-pattern-intro-right-desktop.
 import Snappy from "./assets/images/icon-snappy-process.svg";
 import Affordable from "./assets/images/icon-affordable-prices.svg";
 import PeopleFirst from "./assets/images/icon-people-first.svg";
+import Facebook from "./assets/images/icon-facebook.svg";
+import Twitter from "./assets/images/icon-twitter.svg";
+import Pinterest from "./assets/images/icon-pinterest.svg";
+import Instagram from "./assets/images/icon-instagram.svg";
 
 function App() {
   const [windowSize, setWindowSize] = useState(window.innerWidth);
@@ -35,6 +39,40 @@ function App() {
     },
   ];
 
+  const data__ourCompany = [
+    "how we work",
+    "why insure?",
+    "view plans",
+    "reviews",
+  ];
+
+  const data__helpMe = ["faq", "terms of use", "privacy policy", "cookies"];
+
+  const data__contact = ["sales", "support", "live chat"];
+
+  const data__others = ["careers", "press", "licenses"];
+
+  const data__footer = [
+    {
+      title: "our company",
+      list: data__ourCompany,
+    },
+    {
+      title: "help me",
+      list: data__helpMe,
+    },
+    {
+      title: "contact",
+      list: data__contact,
+    },
+    {
+      title: "others",
+      list: data__others,
+    },
+  ];
+
+  const data__socials = [Facebook, Twitter, Pinterest, Instagram];
+
   /* item creation */
   const createFeatureItems = () => {
     return data__featureItems.map((data, index) => {
@@ -50,6 +88,39 @@ function App() {
             {data.description}
           </p>
         </div>
+      );
+    });
+  };
+
+  const createSitemap = () => {
+    return data__footer.map((data, index) => {
+      return (
+        <div key={`footerList${index}`} className="footer__list">
+          <p className="footer__title">{data.title}</p>
+          {data.list.map((list, listIndex) => {
+            return (
+              <a
+                key={`footerList${index}-Item${listIndex}`}
+                className="footer__item"
+              >
+                {list}
+              </a>
+            );
+          })}
+        </div>
+      );
+    });
+  };
+
+  const createSocialItems = () => {
+    return data__socials.map((data, index) => {
+      return (
+        <img
+          key={`social${index}`}
+          className="footer__img"
+          src={data}
+          alt="social icon"
+        ></img>
       );
     });
   };
@@ -119,7 +190,13 @@ function App() {
         </div>
       </article>
 
-      <footer>
+      <footer className="footer">
+        <hgroup className="footer__hgroup">
+          <img className="footer__logo" src={Logo} alt="logo img"></img>
+          <div className="footer__social-container">{createSocialItems()}</div>
+        </hgroup>
+        <div className="footer__line"></div>
+        <div className="footer__sitemap-container">{createSitemap()}</div>
         <div className="attribution">
           Challenge by{" "}
           <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">
