@@ -3,9 +3,12 @@ import "./App.css";
 
 /* images */
 import Logo from "./assets/images/logo.svg";
-import Hero from "./assets/images/image-intro-desktop.jpg";
+import HeroDesktop from "./assets/images/image-intro-desktop.jpg";
+import HeroMobile from "./assets/images/image-intro-mobile.jpg";
 import PatternLeftDesktop from "./assets/images/bg-pattern-intro-left-desktop.svg";
+import PatternLeftMobile from "./assets/images/bg-pattern-intro-left-mobile.svg";
 import PatternRightDesktop from "./assets/images/bg-pattern-intro-right-desktop.svg";
+import PatternRightMobile from "./assets/images/bg-pattern-intro-right-mobile.svg";
 import Snappy from "./assets/images/icon-snappy-process.svg";
 import Affordable from "./assets/images/icon-affordable-prices.svg";
 import PeopleFirst from "./assets/images/icon-people-first.svg";
@@ -13,10 +16,15 @@ import Facebook from "./assets/images/icon-facebook.svg";
 import Twitter from "./assets/images/icon-twitter.svg";
 import Pinterest from "./assets/images/icon-pinterest.svg";
 import Instagram from "./assets/images/icon-instagram.svg";
+import MenuOpen from "./assets/images/icon-hamburger.svg";
+import MenuClose from "./assets/images/icon-close.svg";
 
 function App() {
   const [windowSize, setWindowSize] = useState(window.innerWidth);
-  const mobileBreakpoint = 800;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const mobileBreakpoint = 915;
+
+  const data__navItems = ["how we work", "blog", "account"];
 
   const data__featureItems = [
     {
@@ -74,6 +82,24 @@ function App() {
   const data__socials = [Facebook, Twitter, Pinterest, Instagram];
 
   /* item creation */
+  const createNavItems = () => {
+    const mobile = mobileBreakpoint >= windowSize;
+
+    return data__navItems.map((data, index) => {
+      return (
+        <a
+          key={`navItem${index}`}
+          className={
+            "nav__link bold" +
+            (mobile ? " nav__link--light nav__link--menu" : "")
+          }
+        >
+          {data}
+        </a>
+      );
+    });
+  };
+
   const createFeatureItems = () => {
     return data__featureItems.map((data, index) => {
       return (
@@ -136,30 +162,58 @@ function App() {
 
   return (
     <>
-      <img
-        className="bg__pattern bg__pattern--left"
-        src={PatternLeftDesktop}
-        alt="bg pattern left img"
-      ></img>
-      <img
-        className="bg__pattern bg__pattern--right"
-        src={PatternRightDesktop}
-        alt="bg pattern right img"
-      ></img>
+      {menuOpen && mobileBreakpoint >= windowSize ? (
+        <div className="menu">
+          {createNavItems()}
+          <button className="nav__button bold button--light nav__button--menu">
+            view plans
+          </button>
+        </div>
+      ) : null}
+
+      {windowSize > mobileBreakpoint ? (
+        <img
+          className="bg__pattern bg__pattern--left"
+          src={PatternLeftDesktop}
+          alt="bg pattern left img"
+        ></img>
+      ) : null}
+      {windowSize > mobileBreakpoint ? (
+        <img
+          className="bg__pattern bg__pattern--right"
+          src={PatternRightDesktop}
+          alt="bg pattern right img"
+        ></img>
+      ) : null}
 
       <nav className="nav">
         <img className="nav__logo" src={Logo} alt="logo img"></img>
-        <div className="nav__right-container">
-          <a className="nav__link bold">how we work</a>
-          <a className="nav__link bold">blog</a>
-          <a className="nav__link bold">account</a>
-          <button className="nav__button bold button--dark">view plans</button>
-        </div>
+        {windowSize > mobileBreakpoint ? (
+          <div className="nav__right-container">
+            {createNavItems()}
+            <button className="nav__button bold button--dark">
+              view plans
+            </button>
+          </div>
+        ) : (
+          <img
+            className="nav__menu"
+            src={menuOpen ? MenuClose : MenuOpen}
+            alt="menu icon"
+            onClick={() => setMenuOpen(!menuOpen)}
+          ></img>
+        )}
       </nav>
 
+      <img
+        className="header__img"
+        src={windowSize > mobileBreakpoint ? HeroDesktop : HeroMobile}
+        alt="header img"
+      ></img>
       <header className="header">
-        <img className="header__img" src={Hero} alt="header img"></img>
-        <div className="line line--light"></div>
+        {windowSize > mobileBreakpoint ? (
+          <div className="line line--light"></div>
+        ) : null}
         <div className="header__content">
           <h1 className="header__h1 text--header">
             Humanizing your insurance.
@@ -173,6 +227,21 @@ function App() {
             view plans
           </button>
         </div>
+
+        {windowSize <= mobileBreakpoint ? (
+          <img
+            className="bg__pattern bg__pattern--left"
+            src={PatternLeftMobile}
+            alt="bg pattern left img"
+          ></img>
+        ) : null}
+        {windowSize <= mobileBreakpoint ? (
+          <img
+            className="bg__pattern bg__pattern--right"
+            src={PatternRightMobile}
+            alt="bg pattern right img"
+          ></img>
+        ) : null}
       </header>
 
       <article className="feature">
